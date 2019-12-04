@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+ <html>
+    <head>		
+        <title>Project So Far</title>
+        <style>
+		body { margin: 0; }
+		canvas { width: 100%; height: 100% }
+      </style>
+  </head>
+    <body>
+	
+		<img id="imgID" style = "display:block; margin-left:auto; margin-right:auto;" src="title2.png" this.src=getTitle(win); height=200 width=400 />
+
+		<button onClick="playRPS(1)"  >
+			<img src="/rock.jpg" height=100 width=100 />
+		</button>
+		
+		<button onClick="playRPS(2)" style = "position:relative; left:80px; ">
+			<img src="/paper.png" height=100 width=100/>
+		</button>
+
+		<button onClick="playRPS(3)" style = "position:relative; left:160px; ">
+			<img src="/Scissors.png" height=100 width=100/>
+		</button>
+		
+		<button style = "position:relative; left:240px; " onClick="window.location.reload();">
+			<img src="/playAgain3.jpg" height=100 width=100/>
+		</button>
+		
+		<script src="https://threejs.org/build/three.min.js"></script>
+		<script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+		<script src="https://unpkg.com/three/examples/js/loaders/GLTFLoader.js"></script>
+		
+<script >		
+
+ // Load 3D Scene
+var scene = new THREE.Scene(); 
+var clock = new THREE.Clock();
+
+ // Load Camera Perspektive
+var camera = new THREE.PerspectiveCamera( 25, window.innerWidth / window.innerHeight, 1, 20000 );
+camera.position.set( 1, 1, 20 );
+	
+ // Load a Renderer
+var renderer = new THREE.WebGLRenderer({ alpha: false });
+renderer.setClearColor( 0xC5C5C3 );
+renderer.setPixelRatio( window.devicePixelRatio );
+renderer.setSize(window.innerWidth, window.innerHeight/2);
+document.body.appendChild(renderer.domElement);
+	
+ // Load the Orbitcontroller
+var controls = new THREE.OrbitControls( camera, renderer.domElement ); 
+			
+ // Load Light
+var ambientLight = new THREE.AmbientLight( 0xcccccc );
+scene.add( ambientLight );
+			
+var directionalLight = new THREE.DirectionalLight( 0xffffff );
+directionalLight.position.set( 0, 1, 1 ).normalize();
+scene.add( directionalLight );				
+
+
+let mixer;
+let mixer2;
+let var1;
+let var2;
+let mixers = [];
+let y = 0;
+let z = 1;
+let win = -1;
+var xx;
+
+let random = Math.ceil(Math.random() * 3);
+
+	function getTitle(x) {
+		if (x == 0)
+		{
+			document.getElementById("imgID").src="lose3.gif";
+		}
+		
+		if (x == 1)
+		{
+			document.getElementById("imgID").src="win3.gif";
+		}
+			
+	}
+
+	function playRPS(x) {
+	
+		y++;
+		
+		if (y = 1)
+			getTitle(win)
+			
+	if (random == 1)
+		var1 = './bocky.glb';
+	if (random == 2)
+		var1 = './bocky2.glb';
+	if (random == 3)
+		var1 = './bocky3.glb';
+
+	// Tie Game
+	// Crash Wins!
+	if (random == x) {
+		var2 = './dance100.glb';
+		win = 0;
+	}
+	
+	// Crash Pick Rock || You Picks Paper:
+	// You Win!
+	if (random == 1 && x == 2) 
+	{
+		var2 = './womp3.glb';
+		win = 1;
+	}	
+	// Crash Picks Rock || You Pick Scissors
+	// Crash Wins!
+	if (random == 1 && x == 3) {
+		var2 = './dance100.glb';
+		win = 0;
+	}
+	
+	// Crash Picks Paper || You Pick Rock
+	// Crash Wins!
+	if (random == 2 && x == 1) {
+		var2 = './dance100.glb';
+		win = 0;
+	}
+	
+	// Crash Picks Paper || You Pick Scissors!
+	// You Win!
+	if (random == 2 && x == 3) {
+		var2 = './womp3.glb';
+		win = 1;
+	}
+		
+	// Crash Picks Scissors || You Pick Rock!
+	// You Win!
+	if (random == 3 && x == 1) {
+		var2 = './womp3.glb';
+		win = 1;
+	}
+	// Crash Picks Scissors || You Pick Paper!
+	// Crash Wins!
+	if (random == 3 && x == 2) {
+		var2 = './dance100.glb';
+		win = 0;
+	}
+	
+	
+	var textureLoader = new THREE.TextureLoader();
+	var texture = textureLoader.load( 'crashTexture.jpg' );
+	texture.flipY = false;
+
+	var loader = new THREE.GLTFLoader();			
+	loader.load( var1, function ( gltf ) {             
+	var object = gltf.scene;	
+	 object.traverse ( ( o ) => {
+    if ( o.isMesh ) {
+      // note: for a multi-material mesh, `o.material` may be an array,
+      // in which case you'd need to set `.map` on each value.
+      o.material.map = texture;
+    }
+  } );
+  
+	gltf.scene.scale.set( 0.05, 0.05, 0.05 );			   
+	gltf.scene.position.x = 0;				    //Position (x = right+ left-) 
+    gltf.scene.position.y = -5;				    //Position (y = up+, down-)
+	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
+	
+	scene.add( gltf.scene );
+	
+	mixer = new THREE.AnimationMixer( object );
+	gltf.animations.forEach(( clip ) => {
+    var action = mixer.clipAction(clip).play();
+	action.clampWhenFinished = true;
+	action.loop = THREE.LoopOnce;
+	});
+		});	 
+		
+		mixers.push(mixer);
+		
+		render();
+		animate();
+		
+		
+	
+
+	var textureLoader2 = new THREE.TextureLoader();
+	var texture2 = textureLoader.load( 'crashTexture.jpg' );
+	texture2.flipY = false;
+
+	var loader2 = new THREE.GLTFLoader();			
+	loader2.load( var2, function ( gltf ) {             
+	var object2 = gltf.scene;	
+	 object2.traverse ( ( o ) => {
+    if ( o.isMesh ) {
+      // note: for a multi-material mesh, `o.material` may be an array,
+      // in which case you'd need to set `.map` on each value.
+      o.material.map = texture;
+    }
+  } );
+  
+	gltf.scene.scale.set( 0.05, 0.05, 0.05 );			   
+	gltf.scene.position.x = 0;				    //Position (x = right+ left-) 
+    gltf.scene.position.y = -5;				    //Position (y = up+, down-)
+	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
+	
+	scene.add( gltf.scene );
+	
+	mixer2 = new THREE.AnimationMixer( object2 );
+	gltf.animations.forEach(( clip ) => {
+    var action2 = mixer2.clipAction(clip).play();
+	action2.clampWhenFinished = true;
+	action2.loop = THREE.LoopOnce;
+	});
+		});	 
+		
+		mixers.push(mixer2);
+		
+		render();
+		animate();
+		
+	}
+	
+	function animate() {
+	render();
+	requestAnimationFrame(animate);
+            var delta = clock.getDelta();
+			
+			for (var i = 0; i < mixers.length; ++ i) {
+			
+            if (mixers[i] != null) {
+                mixers[i].update(delta);
+            };
+			
+	}
+	}
+	
+	function render() {
+		renderer.render( scene, camera );
+	}
+
+render();
+animate();
+
+</script>	
+</body>
+</html>
