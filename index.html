@@ -9,7 +9,7 @@
   </head>
     <body>
 	
-		<embed id="music" name="GoodEnough" src="=nothing.mp3" this.src=getMusic(win); loop="false" hidden="true" autostart="true">
+		<embed type="audio/mpeg" id="musicID" src="nothing.mp3" loop="false" hidden="true" autostart="0" this.src=getMusic(win); volume=0 >
 	
 		<img id="imgID" style = "display:block; margin-left:auto; margin-right:auto;" src="title2.png" this.src=getTitle(win); height=200 width=400 />
 
@@ -90,14 +90,17 @@ let random = Math.ceil(Math.random() * 3);
 	function getMusic(x) {
 		if (x == 0)
 		{
-			document.getElementById("music").src="loseMusic.mp3";
+			document.getElementById("musicID").src="loseMusic2.mp3";
+
 		}
 		
 		if (x == 1)
 		{
-			document.getElementById("music").src="winMusic.mp3";
+			document.getElementById("musicID").src="winMusic.mp3";
+
 		}
-			
+		
+	
 	}	
 
 	function playRPS(x) {
