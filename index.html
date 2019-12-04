@@ -12,11 +12,11 @@
 		<img id="imgID" style = "display:block; margin-left:auto; margin-right:auto;" src="title2.png" this.src=getTitle(win); height=200 width=400 />
 
 		<button onClick="playRPS(1)"  >
-			<img src="rock.jpg" height=100 width=100 />
+			<img src="Rock.jpg" height=100 width=100 />
 		</button>
 		
 		<button onClick="playRPS(2)" style = "position:relative; left:80px; ">
-			<img src="paper.png" height=100 width=100/>
+			<img src="Paper.png" height=100 width=100/>
 		</button>
 
 		<button onClick="playRPS(3)" style = "position:relative; left:160px; ">
@@ -75,12 +75,12 @@ let random = Math.ceil(Math.random() * 3);
 	function getTitle(x) {
 		if (x == 0)
 		{
-			document.getElementById("imgID").src="lose3.gif";
+			document.getElementById("imgID").src="Lose3.gif";
 		}
 		
 		if (x == 1)
 		{
-			document.getElementById("imgID").src="win3.gif";
+			document.getElementById("imgID").src="Win3.gif";
 		}
 			
 	}
