@@ -9,6 +9,8 @@
   </head>
     <body>
 	
+		<embed id="music" name="GoodEnough" src="=nothing.mp3" this.src=getMusic(win); loop="false" hidden="true" autostart="true">
+	
 		<img id="imgID" style = "display:block; margin-left:auto; margin-right:auto;" src="title2.png" this.src=getTitle(win); height=200 width=400 />
 
 		<button onClick="playRPS(1)"  >
@@ -84,14 +86,30 @@ let random = Math.ceil(Math.random() * 3);
 		}
 			
 	}
+	
+	function getMusic(x) {
+		if (x == 0)
+		{
+			document.getElementById("music").src="loseMusic.mp3";
+		}
+		
+		if (x == 1)
+		{
+			document.getElementById("music").src="winMusic.mp3";
+		}
+			
+	}	
 
 	function playRPS(x) {
 	
 		y++;
 		
 		if (y = 1)
-			getTitle(win)
-			
+		{
+			getTitle(win);
+			getMusic(win);
+		}
+		
 	if (random == 1)
 		var1 = './bocky.glb';
 	if (random == 2)
