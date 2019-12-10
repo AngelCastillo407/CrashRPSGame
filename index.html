@@ -59,7 +59,12 @@ scene.add( ambientLight );
 			
 var directionalLight = new THREE.DirectionalLight( 0xffffff );
 directionalLight.position.set( 0, 1, 1 ).normalize();
-scene.add( directionalLight );				
+scene.add( directionalLight );
+
+var directionalLight2 = new THREE.DirectionalLight( 0xffffff );
+directionalLight.position.set( 1, 0, 1 ).normalize();
+scene.add( directionalLight2 );		
+				
 
 
 let mixer;
@@ -85,10 +90,14 @@ let random = Math.ceil(Math.random() * 3);
 			document.getElementById("imgID").src="Win3.gif";
 		}
 			
+		if (x == 2)
+		{
+			document.getElementById("imgID").src="Tied2.gif";
+		}
 	}
 	
 	function getMusic(x) {
-		if (x == 0)
+		if (x == 0 || x == 2)
 		{
 			document.getElementById("musicID").src="loseMusic2.mp3";
 
@@ -124,7 +133,7 @@ let random = Math.ceil(Math.random() * 3);
 	// Crash Wins!
 	if (random == x) {
 		var2 = './dance100.glb';
-		win = 0;
+		win = 2;
 	}
 	
 	// Crash Pick Rock || You Picks Paper:
@@ -170,7 +179,7 @@ let random = Math.ceil(Math.random() * 3);
 	
 	
 	var textureLoader = new THREE.TextureLoader();
-	var texture = textureLoader.load( 'crashTexture.jpg' );
+	var texture = textureLoader.load( 'crashTexture000.jpg' );
 	texture.flipY = false;
 
 	var loader = new THREE.GLTFLoader();			
@@ -208,7 +217,7 @@ let random = Math.ceil(Math.random() * 3);
 	
 
 	var textureLoader2 = new THREE.TextureLoader();
-	var texture2 = textureLoader.load( 'crashTexture.jpg' );
+	var texture2 = textureLoader.load( 'crashTexture33.jpg' );
 	texture2.flipY = false;
 
 	var loader2 = new THREE.GLTFLoader();			
