@@ -11,7 +11,7 @@
 	
 		<embed type="audio/mpeg" id="musicID" src="nothing.mp3" loop="false" hidden="true" autostart="0" this.src=getMusic(win); volume=0 >
 	
-		<img id="imgID" style = "display:block; margin-left:auto; margin-right:auto;" src="title2.png" this.src=getTitle(win); height=200 width=400 />
+		<img id="imgID" style = "display:block; margin-left:auto; margin-right:auto;" src="title33.png" this.src=getTitle(win); height=200 width=400 />
 
 		<button onClick="playRPS(1)"  >
 			<img src="Rock.jpg" height=100 width=100 />
@@ -28,6 +28,10 @@
 		<button style = "position:relative; left:240px; " ondblclick="window.location.reload();">
 			<img src="playAgain3.jpg" height=100 width=100/>
 		</button>
+		
+		<button style = "position:relative; left:320px; ">
+			<img src="dbl2.png" height=100 width=100/>
+		</button>		
 		
 		<script src="https://threejs.org/build/three.min.js"></script>
 		<script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
@@ -116,10 +120,16 @@ let random = Math.ceil(Math.random() * 3);
 	
 		y++;
 		
-		if (y = 1)
+		if (y == 2)
 		{
 			getTitle(win);
 			getMusic(win);
+		}
+		
+		if (y >= 3)
+		{
+			console.log(y);
+			return;
 		}
 		
 	if (random == 1)
