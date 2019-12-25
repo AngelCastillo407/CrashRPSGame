@@ -74,6 +74,7 @@ let mixer2;
 let var1;
 let var2;
 let mixers = [];
+
 let y = 0;
 let z = 1;
 let win = -1;
@@ -81,7 +82,8 @@ var xx;
 
 let random = Math.ceil(Math.random() * 3);
 
-	function getTitle(x) {
+	function getTitle(x) 
+	{
 		if (x == 0)
 		{
 			document.getElementById("imgID").src="Lose3.gif";
@@ -98,7 +100,8 @@ let random = Math.ceil(Math.random() * 3);
 		}
 	}
 	
-	function getMusic(x) {
+	function getMusic(x) 
+	{
 		if (x == 0 || x == 2)
 		{
 			document.getElementById("musicID").src="loseMusic2.mp3";
@@ -110,11 +113,11 @@ let random = Math.ceil(Math.random() * 3);
 			document.getElementById("musicID").src="winMusic.mp3";
 
 		}
-		
 	
 	}	
 
-	function playRPS(x) {
+	function playRPS(x) 
+	{
 	
 		y++;
 		
@@ -130,10 +133,15 @@ let random = Math.ceil(Math.random() * 3);
 			return;
 		}
 		
+	// Rock Animation Is Chosen
 	if (random == 1)
 		var1 = './bocky.glb';
+		
+	// Paper Animation Is Chosen
 	if (random == 2)
 		var1 = './bocky2.glb';
+		
+	// Scissor Animation Is Chosen
 	if (random == 3)
 		var1 = './bocky3.glb';
 
@@ -144,21 +152,21 @@ let random = Math.ceil(Math.random() * 3);
 		win = 2;
 	}
 	
-	// Crash Pick Rock || You Picks Paper:
+	// Crash Pick Rock || You Picks Paper!
 	// You Win!
 	if (random == 1 && x == 2) 
 	{
 		var2 = './womp3.glb';
 		win = 1;
 	}	
-	// Crash Picks Rock || You Pick Scissors
+	// Crash Picks Rock || You Pick Scissors!
 	// Crash Wins!
 	if (random == 1 && x == 3) {
 		var2 = './dance100.glb';
 		win = 0;
 	}
 	
-	// Crash Picks Paper || You Pick Rock
+	// Crash Picks Paper || You Pick Rock!
 	// Crash Wins!
 	if (random == 2 && x == 1) {
 		var2 = './dance100.glb';
@@ -178,13 +186,13 @@ let random = Math.ceil(Math.random() * 3);
 		var2 = './womp3.glb';
 		win = 1;
 	}
+	
 	// Crash Picks Scissors || You Pick Paper!
 	// Crash Wins!
 	if (random == 3 && x == 2) {
 		var2 = './dance100.glb';
 		win = 0;
 	}
-	
 	
 	var textureLoader = new THREE.TextureLoader();
 	var texture = textureLoader.load( 'crashTexture000.jpg' );
@@ -218,14 +226,14 @@ let random = Math.ceil(Math.random() * 3);
 		
 		mixers.push(mixer);
 		
-		render();
-		animate();
+		//render();
+		//animate();
 		
 		
 	
 
 	var textureLoader2 = new THREE.TextureLoader();
-	var texture2 = textureLoader.load( 'crashTexture33.jpg' );
+	var texture2 = textureLoader.load( 'crashTexture000.jpg' );
 	texture2.flipY = false;
 
 	var loader2 = new THREE.GLTFLoader();			
