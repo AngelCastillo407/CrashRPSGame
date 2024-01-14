@@ -3,9 +3,9 @@
     <head>		
         <title>Project So Far</title>
         <style>
-		body { margin: 0; }
-		canvas { width: 100%; height: 100% }
-      </style>
+			body { margin: 0; }
+			canvas { width: 100%; height: 100% }
+		</style>
   </head>
     <body>
 	
@@ -13,7 +13,7 @@
 	
 		<img id="imgID" style = "display:block; margin-left:auto; margin-right:auto;" src="title33.png" this.src=getTitle(win); height=200 width=400 />
 
-		<img src="dbl6.png" height=100 width=100/>
+		<img src="dbl66.png" height=100 width=100/>
 	
 		<button onClick="playRPS(1)"  style = "position:relative; left:80px; "  >
 			<img src="Rock.jpg" height=100 width=100 />
@@ -27,269 +27,243 @@
 			<img src="Scissors.png" height=100 width=100/>
 		</button>
 		
-		<button style = "position:relative; left:320px; " ondblclick="window.location.reload();">
+		<button style = "position:relative; left:320px; " onclick="window.location.href = window.location.href;">
 			<img src="playAgain3.jpg" height=100 width=100/>
 		</button>
 		
 		<script src="https://threejs.org/build/three.min.js"></script>
-		<script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
-		<script src="https://unpkg.com/three/examples/js/loaders/GLTFLoader.js"></script>
+		<!-- <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script> -->
+		<script src="./GTLFLoader.js"> </script>
+		<!-- <script src="https://unpkg.com/three/examples/js/loaders/GLTFLoader.js"></script -->
+		<script src="./OrbitControls.js"> </script>
 		
-<script >		
+		<script >		
 
- // Load 3D Scene
-var scene = new THREE.Scene(); 
-var clock = new THREE.Clock();
+			// Load 3D Scene
+			var scene = new THREE.Scene(); 
+			var clock = new THREE.Clock();
 
- // Load Camera Perspektive
-var camera = new THREE.PerspectiveCamera( 25, window.innerWidth / window.innerHeight, 1, 20000 );
-camera.position.set( 1, 1, 20 );
-	
- // Load a Renderer
-var renderer = new THREE.WebGLRenderer({ alpha: false });
-renderer.setClearColor( 0xC5C5C3 );
-renderer.setPixelRatio( window.devicePixelRatio );
-renderer.setSize(window.innerWidth, window.innerHeight/2);
-document.body.appendChild(renderer.domElement);
-	
- // Load the Orbitcontroller
-var controls = new THREE.OrbitControls( camera, renderer.domElement ); 
-			
- // Load Light
-var ambientLight = new THREE.AmbientLight( 0xcccccc );
-scene.add( ambientLight );
-			
-var directionalLight = new THREE.DirectionalLight( 0xffffff );
-directionalLight.position.set( 0, 1, 1 ).normalize();
-scene.add( directionalLight );
-
-var directionalLight2 = new THREE.DirectionalLight( 0xffffff );
-directionalLight.position.set( 1, 0, 1 ).normalize();
-scene.add( directionalLight2 );		
+			// Load Camera Perspektive
+			var camera = new THREE.PerspectiveCamera( 25, window.innerWidth / window.innerHeight, 1, 20000 );
+			camera.position.set( 1, 1, 20 );
 				
+			// Load a Renderer
+			var renderer = new THREE.WebGLRenderer({ alpha: false });
+			renderer.setClearColor( 0xC5C5C3 );
+			renderer.setPixelRatio( window.devicePixelRatio );
+			renderer.setSize(window.innerWidth, window.innerHeight/2);
+			document.body.appendChild(renderer.domElement);
+				
+			// Load the Orbitcontroller
+			var controls = new THREE.OrbitControls( camera, renderer.domElement ); 
+						
+			// Load Light
+			var ambientLight = new THREE.AmbientLight( 0xcccccc );
+			scene.add( ambientLight );
+						
+			var directionalLight = new THREE.DirectionalLight( 0xffffff );
+			directionalLight.position.set( 0, 1, 1 ).normalize();
+			scene.add( directionalLight );
 
+			var directionalLight2 = new THREE.DirectionalLight( 0xffffff );
+			directionalLight.position.set( 1, 0, 1 ).normalize();
+			scene.add( directionalLight2 );		
+							
+			let mixer;
+			let mixer2;
+			let var1;
+			let var2;
+			window.mixers = [];
+			let newMixer;
 
-let mixer;
-let mixer2;
-let var1;
-let var2;
-let mixers = [];
+			let win = -1;
+			let gamePlayed = 0;
 
-let y = 0;
-let z = 1;
-let win = -1;
-var xx;
+			let random = Math.ceil(Math.random() * 3);
 
-let random = Math.ceil(Math.random() * 3);
+			function getTitle(x) {
+				if (x == 0) {
+					document.getElementById("imgID").src="Lose3.gif";
+				}
+				if (x == 1) {
+					document.getElementById("imgID").src="Win3.gif";
+				}
+				if (x == 2) {
+					document.getElementById("imgID").src="Tied2.gif";
+				}
+			}
+				
+			function getMusic(x) {
+				if (x == 0) {
+					document.getElementById("musicID").src="loseMusic2.mp3";
+				}
+				if (x == 1) {
+					document.getElementById("musicID").src="winMusic.mp3";
+				}
+				if (x == 2) {
+					document.getElementById("musicID").src="tieMusic.mp3";
+				}
+			}	
 
-	function getTitle(x) 
-	{
-		if (x == 0)
-		{
-			document.getElementById("imgID").src="Lose3.gif";
-		}
-		
-		if (x == 1)
-		{
-			document.getElementById("imgID").src="Win3.gif";
-		}
-			
-		if (x == 2)
-		{
-			document.getElementById("imgID").src="Tied2.gif";
-		}
-	}
-	
-	function getMusic(x) 
-	{
-		if (x == 0 || x == 2)
-		{
-			document.getElementById("musicID").src="loseMusic2.mp3";
+			function determine(x) {
+				if (x == 1) {
+					return 'rock';
+				}
+				if (x == 2) {
+					return 'paper';
+				}
+				if (x == 3) {
+					return 'scissors';
+				}
+			}
+				
+			function determineGame(you, crash) {
+				let gameChart = [ [2, 0, 1], [1, 2, 0], [0, 1, 2] ];
+				let gameResult = gameChart[you][crash];
+				if (gameResult == 1) {
+					window.var2 = './womp3.glb';
+					win = 1;
+				} 
+				else if (gameResult == 2) {
+					window.var2 = './womp3.glb';
+					win = 2;
+				}
+				else {
+					window.var2 = './dance100.glb';
+					win = 0;
+				}
+			}
+				
+			function playRPS(x) {
+				if (gamePlayed == 2) {
+					return;
+				}
+				if (gamePlayed == 0) {
+					random = Math.ceil(Math.random() * 3);
+					gamePlayed = 1;
+				}
+				console.log('You picked: ' + determine(x) );
+				console.log('Crash Picked: ' + determine(random) );
+				determineGame(x-1, random-1);
+				if (gamePlayed == 1) {
+					getTitle(win);
+					getMusic(win);
+					console.log('Game has been played');
+					gamePlayed = 2;
+				}
+				
+				// Rock Animation Is Chosen
+				if (random == 1) {
+					var1 = './bocky.glb';
+				}
+				// Paper Animation Is Chosen
+				if (random == 2) {
+					var1 = './bocky2.glb';
+				}	
+				// Scissor Animation Is Chosen
+				if (random == 3) {
+					var1 = './bocky3.glb';
+				}
+				playRPS2();
 
-		}
-		
-		if (x == 1)
-		{
-			document.getElementById("musicID").src="winMusic.mp3";
+				var textureLoader = new THREE.TextureLoader();
+				var texture = textureLoader.load( 'crashTexture000.jpg' );
+				texture.flipY = false;
 
-		}
-	
-	}	
+				var loader = new THREE.GLTFLoader();
+				loader.load( window.var2, function ( gltf ) {
+					var object = gltf.scene;
+					object.traverse ( ( o ) => {
+						if ( o.isMesh ) {
+							// note: for a multi-material mesh, `o.material` may be an array,
+							// in which case you'd need to set `.map` on each value.
+							o.material.map = texture;
+						}
+					});
+					
+					gltf.scene.scale.set( 0.05 , 0.05, 0.05 );
+					gltf.scene.position.x = 0;				    //Position (x = right+ left-) 
+					gltf.scene.position.y = -5;				    //Position (y = up+, down-)
+					gltf.scene.position.z = 0;				    //Position (z = front +, back-)					
+					scene.add( gltf.scene );
 
-	function playRPS(x) 
-	{
-	
-		y++;
-		
-		if (y == 2)
-		{
-			getTitle(win);
-			getMusic(win);
-		}
-		
-		if (y >= 3)
-		{
-			console.log(y);
-			return;
-		}
-		
-	// Rock Animation Is Chosen
-	if (random == 1)
-		var1 = './bocky.glb';
-		
-	// Paper Animation Is Chosen
-	if (random == 2)
-		var1 = './bocky2.glb';
-		
-	// Scissor Animation Is Chosen
-	if (random == 3)
-		var1 = './bocky3.glb';
+					object.traverse(function(obj) { obj.frustumCulled = false; });
 
-	// Tie Game
-	// Crash Wins!
-	if (random == x) {
-		var2 = './dance100.glb';
-		win = 2;
-	}
-	
-	// Crash Pick Rock || You Picks Paper!
-	// You Win!
-	if (random == 1 && x == 2) 
-	{
-		var2 = './womp3.glb';
-		win = 1;
-	}	
-	// Crash Picks Rock || You Pick Scissors!
-	// Crash Wins!
-	if (random == 1 && x == 3) {
-		var2 = './dance100.glb';
-		win = 0;
-	}
-	
-	// Crash Picks Paper || You Pick Rock!
-	// Crash Wins!
-	if (random == 2 && x == 1) {
-		var2 = './dance100.glb';
-		win = 0;
-	}
-	
-	// Crash Picks Paper || You Pick Scissors!
-	// You Win!
-	if (random == 2 && x == 3) {
-		var2 = './womp3.glb';
-		win = 1;
-	}
-		
-	// Crash Picks Scissors || You Pick Rock!
-	// You Win!
-	if (random == 3 && x == 1) {
-		var2 = './womp3.glb';
-		win = 1;
-	}
-	
-	// Crash Picks Scissors || You Pick Paper!
-	// Crash Wins!
-	if (random == 3 && x == 2) {
-		var2 = './dance100.glb';
-		win = 0;
-	}
-	
-	var textureLoader = new THREE.TextureLoader();
-	var texture = textureLoader.load( 'crashTexture000.jpg' );
-	texture.flipY = false;
+					let animations = gltf.animations;
+					let newMixer = new THREE.AnimationMixer(gltf.scene);
+					if (window.mixers.length <= 2) {
+						window.mixers.push(newMixer);
+					}
+					let counter = 0;
+					for (counter = 0; counter < animations.length; counter++) {
+						let firstAction = newMixer.clipAction(animations[counter]);
+						firstAction.clampWhenFinished = true;
+						firstAction.loop = THREE.LoopOnce;
+						firstAction.play();
+					}
 
-	var loader = new THREE.GLTFLoader();			
-	loader.load( var1, function ( gltf ) {             
-	var object = gltf.scene;	
-	 object.traverse ( ( o ) => {
-    if ( o.isMesh ) {
-      // note: for a multi-material mesh, `o.material` may be an array,
-      // in which case you'd need to set `.map` on each value.
-      o.material.map = texture;
-    }
-  } );
-  
-	gltf.scene.scale.set( 0.05, 0.05, 0.05 );			   
-	gltf.scene.position.x = 0;				    //Position (x = right+ left-) 
-    gltf.scene.position.y = -5;				    //Position (y = up+, down-)
-	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
-	
-	scene.add( gltf.scene );
-	
-	mixer = new THREE.AnimationMixer( object );
-	gltf.animations.forEach(( clip ) => {
-    var action = mixer.clipAction(clip).play();
-	action.clampWhenFinished = true;
-	action.loop = THREE.LoopOnce;
-	});
-		});	 
-		
-		mixers.push(mixer);
-		
-		//render();
-		//animate();
-		
-		
-	
+				});	 				
+			}
 
-	var textureLoader2 = new THREE.TextureLoader();
-	var texture2 = textureLoader.load( 'crashTexture000.jpg' );
-	texture2.flipY = false;
+			function playRPS2() {
+				var textureLoader2 = new THREE.TextureLoader();
+				var texture2 = textureLoader2.load( 'crashTexture001.jpg' );
+				texture2.flipY = false;
 
-	var loader2 = new THREE.GLTFLoader();			
-	loader2.load( var2, function ( gltf ) {             
-	var object2 = gltf.scene;	
-	 object2.traverse ( ( o ) => {
-    if ( o.isMesh ) {
-      // note: for a multi-material mesh, `o.material` may be an array,
-      // in which case you'd need to set `.map` on each value.
-      o.material.map = texture;
-    }
-  } );
-  
-	gltf.scene.scale.set( 0.05, 0.05, 0.05 );			   
-	gltf.scene.position.x = 0;				    //Position (x = right+ left-) 
-    gltf.scene.position.y = -5;				    //Position (y = up+, down-)
-	gltf.scene.position.z = 0;				    //Position (z = front +, back-)
-	
-	scene.add( gltf.scene );
-	
-	mixer2 = new THREE.AnimationMixer( object2 );
-	gltf.animations.forEach(( clip ) => {
-    var action2 = mixer2.clipAction(clip).play();
-	action2.clampWhenFinished = true;
-	action2.loop = THREE.LoopOnce;
-	});
-		});	 
-		
-		mixers.push(mixer2);
-		
-		render();
-		animate();
-		
-	}
-	
-	function animate() {
-	render();
-	requestAnimationFrame(animate);
-            var delta = clock.getDelta();
-			
-			for (var i = 0; i < mixers.length; ++ i) {
-			
-            if (mixers[i] != null) {
-                mixers[i].update(delta);
-            };
-			
-	}
-	}
-	
-	function render() {
-		renderer.render( scene, camera );
-	}
+				var loader2 = new THREE.GLTFLoader();
 
-render();
-animate();
+				loader2.load( var1, function ( gltf ) {
+					var object2 = gltf.scene;
+					object2.traverse ( ( o ) => {
+						if ( o.isMesh ) {
+							// note: for a multi-material mesh, `o.material` may be an array,
+							// in which case you'd need to set `.map` on each value.
+							o.material.map = texture2;
+						}
+					});
+				
+					gltf.scene.scale.set( 0.05 , 0.05 , 0.05 );
+					gltf.scene.position.x = 0;				    //Position (x = right+ left-) 
+					gltf.scene.position.y = -5;				    //Position (y = up+, down-)
+					gltf.scene.position.z = 0;				    //Position (z = front +, back-)
+					
+					scene.add( gltf.scene );
+					object2.traverse(function(obj) { obj.frustumCulled = false; });
 
-</script>	
-</body>
+					let animations2 = gltf.animations;
+					let newMixer2 = new THREE.AnimationMixer(gltf.scene);
+					if (window.mixers.length <= 2) {
+						window.mixers.push(newMixer2);
+					}
+					let counter2 = 0;
+					for (counter2 = 0; counter2 < animations2.length; counter2++) {
+						let firstAction2 = newMixer2.clipAction(animations2[counter2]);
+						firstAction2.clampWhenFinished = true;
+						firstAction2.loop = THREE.LoopOnce;
+						firstAction2.play();
+					}
+				});	 
+
+				render();
+				animate();
+			}
+				
+			function animate() {
+				requestAnimationFrame(animate);
+				var delta = clock.getDelta();
+				window.mixers.forEach((element) => {
+					 element.update(delta);
+					 console.log('updating delta');
+				});
+				render();
+			}
+				
+			function render() {
+				renderer.render( scene, camera );
+			}
+
+			render();
+
+		</script>	
+	</body>
 </html>
